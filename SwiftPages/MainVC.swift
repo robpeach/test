@@ -30,7 +30,6 @@ class MainVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
     var imageCache = [String:UIImage]()
     var intTapped = NSInteger()
     
-    
     // MARK:- VIEW LIFE CYCLE METHODS
     override func viewDidLoad() {
         super.viewDidLoad()

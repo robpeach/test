@@ -1131,8 +1131,8 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" id="Nbc-Is-t9Q">
-                        <barButtonItem key="leftBarButtonItem" title="Back" id="R9K-oO-Zva">
+                    <navigationItem key="navigationItem" title="📺 SCREEN CHAT 🇬🇧" id="Nbc-Is-t9Q">
+                        <barButtonItem key="leftBarButtonItem" title="🚫" id="R9K-oO-Zva">
                             <connections>
                                 <action selector="backBtnPress:" destination="2Wc-5u-iyi" id="FmD-Iq-8U1"/>
                             </connections>
@@ -1178,7 +1178,7 @@
                                             <constraint firstAttribute="height" constant="55" id="itd-xM-qT2"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name="FuturaBT-Bold" family="Futura" pointSize="20"/>
-                                        <state key="normal" title="SCREEN CHAT" backgroundImage="SLineButton">
+                                        <state key="normal" title="LOADING.." backgroundImage="SLineButton">
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>
@@ -1322,6 +1322,9 @@
                         </constraints>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <connections>
+                        <outlet property="chatBtn" destination="mqK-5P-6Ut" id="bEZ-MO-gza"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="k9e-og-8d1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

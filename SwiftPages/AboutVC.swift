@@ -12,9 +12,30 @@ import MessageUI
 
 class AboutVC: UIViewController, MFMailComposeViewControllerDelegate {
 
+    @IBOutlet weak var chatBtn: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        FIREBASE_REF.child("button").child("chat").observeEventType(.Value, withBlock: { snapshot in
+            
+            let chatbuttonV = snapshot.value!.objectForKey("on") as! String
+            let chatbuttonB = "true"
+            if chatbuttonV == chatbuttonB {
+                self.chatBtn.userInteractionEnabled = true
+                self.chatBtn.setTitle("SCREEN CHAT OPEN 📺", forState: UIControlState.Normal)
+                print("YES!")
+            } else {
+                
+                self.chatBtn.userInteractionEnabled = false
+                self.chatBtn.setTitle("SCREEN CHAT CLOSED 🚫", forState: UIControlState.Normal)
+                self.chatBtn.setTitleColor(UIColor.grayColor(), forState: UIControlState.Normal)
+                print("NO!")
+            }
+        })
+        
+        
+        
+        
         // Do any additional setup after loading the view.
     }
 

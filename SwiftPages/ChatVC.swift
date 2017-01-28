@@ -18,8 +18,18 @@ class ChatVC: JSQMessagesViewController {
     var messagesRef2 = FIRDatabase.database().reference()
     var avatarDict = [String: JSQMessagesAvatarImage]()
     let photoCache = NSCache() //czaem wczytuje zły obrazek - do rozwiązania problemu
+    var incomingBubble: JSQMessagesBubbleImage!
+    var outgoingBubble: JSQMessagesBubbleImage!
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.collectionView.reloadData()
+        collectionView?.collectionViewLayout.springinessEnabled = true
+        
+        self.automaticallyScrollsToMostRecentMessage = true
+        
+        
+        
         
         if let currentUser = FIRAuth.auth()?.currentUser {
             self.senderId = currentUser.uid
@@ -65,6 +75,7 @@ class ChatVC: JSQMessagesViewController {
             
         }
         collectionView.reloadData()
+        
     }
     
     func observeMessages(){//wyrzucić ciężkie dane poza główny wątek = Photo i Video - Asynchroniczność
@@ -85,6 +96,8 @@ class ChatVC: JSQMessagesViewController {
                     self.messages.append(JSQMessage(senderId: senderId, displayName: senderName, text: text))
                     print(CFAbsoluteTimeGetCurrent() - startTime)
                     
+                    
+                    
                 case "PHOTO": //OGARNĄĆ JESZCZE SDWebImage do asynchronicznego pobierania zdjęć !!! -> Problem z frameworkiem - niewidoczny
                     
                     var photo = JSQPhotoMediaItem(image: nil)
@@ -92,6 +105,7 @@ class ChatVC: JSQMessagesViewController {
                     
                     if let cachePhoto = self.photoCache.objectForKey(fileUrl) as? JSQPhotoMediaItem{
                         photo = cachePhoto
+                        
                         self.collectionView.reloadData()
                     }else{
                         
@@ -103,6 +117,10 @@ class ChatVC: JSQMessagesViewController {
                                 photo.image = image
                                 self.collectionView.reloadData()
                                 self.photoCache.setObject(photo, forKey: fileUrl)
+                                if self.senderId != senderId{
+                                    photo.image = UIImage(named: ("profileimg"))
+                                    
+                                }
                             })
                             //print("później test wątku")
                         })
@@ -114,8 +132,11 @@ class ChatVC: JSQMessagesViewController {
                     
                     if self.senderId == senderId{
                         photo.appliesMediaViewMaskAsOutgoing = true
+                        
                     }else{
                         photo.appliesMediaViewMaskAsOutgoing = false
+                        photo.image = UIImage(named: ("profileimg"))
+                        
                     }
                     print(CFAbsoluteTimeGetCurrent() - startTime)
                     
@@ -137,7 +158,10 @@ class ChatVC: JSQMessagesViewController {
                 default:
                     print("nieznany typ danych!")
                 }
+                
                 self.collectionView.reloadData()
+                
+                
             }
             
         })
@@ -146,8 +170,12 @@ class ChatVC: JSQMessagesViewController {
     
     
     
+    
+    
+    
      override func didPressSendButton(button: UIButton!, withMessageText text: String!, senderId: String!, senderDisplayName senderDisplayPic: String!, date: NSDate!) {
         print("didpress")
+        automaticallyScrollsToMostRecentMessage = true
         
         let newMessage = messagesRef.childByAutoId()
         let messageData = ["text": text, "senderId": senderId, "senderName": senderDisplayName, "MediaType": "TEXT"]
@@ -201,22 +229,21 @@ class ChatVC: JSQMessagesViewController {
 }
     
  
-//    if message.senderId == self.senderId {
-//    cell.textView.textColor = UIColor.blackColor()
-//    } else {
-//    cell.textView.text = "📺👀🇬🇧"
-//    cell.textView.textColor = UIColor.whiteColor()
-//    }
+
     
     override func collectionView(collectionView: JSQMessagesCollectionView!, messageBubbleImageDataForItemAtIndexPath indexPath: NSIndexPath!) -> JSQMessageBubbleImageDataSource! {
         let message = messages[indexPath.item]
         let bubbleFactory = JSQMessagesBubbleImageFactory()
         
+        
+        
         if message.senderId == self.senderId{
+            
             return bubbleFactory.outgoingMessagesBubbleImageWithColor(.blueColor())
             
         }else{
-            return bubbleFactory.outgoingMessagesBubbleImageWithColor(.grayColor())
+            
+            return bubbleFactory.incomingMessagesBubbleImageWithColor(.grayColor())
             
         }
         
@@ -230,6 +257,17 @@ class ChatVC: JSQMessagesViewController {
         let cell = super.collectionView(collectionView, cellForItemAtIndexPath: indexPath) as! JSQMessagesCollectionViewCell
         
         
+        cell.backgroundColor = UIColor.clearColor()
+        cell.layer.rasterizationScale = UIScreen.mainScreen().scale
+        cell.layer.shouldRasterize = true
+        
+        let message = messages[indexPath.item]
+        if message.senderId == self.senderId {
+            
+        } else {
+            
+            cell.textView?.text = "📺"
+        }
         
         
         return cell
