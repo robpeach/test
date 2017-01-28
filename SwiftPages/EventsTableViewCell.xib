@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="Futura-Heavy.ttf">
+            <string>FuturaBT-Heavy</string>
+            <string>FuturaBT-Heavy</string>
+        </mutableArray>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="Cell" rowHeight="125" id="KGk-i7-Jjw" customClass="EventsTableViewCell" customModule="britanniav2" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="125"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="124"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Gvy-B7-kvD">
+                        <rect key="frame" x="120" y="13" width="192" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="192" id="9u6-ZB-Ns1"/>
+                            <constraint firstAttribute="height" constant="20" id="ekJ-mV-HET"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="FuturaBT-Heavy" family="Futura" pointSize="14"/>
+                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="vjO-cK-wsR">
+                        <rect key="frame" x="12" y="16" width="100" height="100"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="100" id="Mmp-yw-Fdg"/>
+                            <constraint firstAttribute="width" constant="100" id="z56-dP-jjc"/>
+                        </constraints>
+                    </imageView>
+                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OsR-Vg-RTJ">
+                        <rect key="frame" x="116" y="23" width="196" height="93"/>
+                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="93" id="RJF-W3-J1Q"/>
+                        </constraints>
+                        <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                        <color key="textColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
+                        <fontDescription key="fontDescription" name="FuturaBT-Heavy" family="Futura" pointSize="12"/>
+                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                    </textView>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="OsR-Vg-RTJ" firstAttribute="trailing" secondItem="H2p-sc-9uM" secondAttribute="trailingMargin" id="Abn-kp-pkg"/>
+                    <constraint firstItem="Gvy-B7-kvD" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="5" id="B3E-zv-uYJ"/>
+                    <constraint firstItem="Gvy-B7-kvD" firstAttribute="leading" secondItem="vjO-cK-wsR" secondAttribute="trailing" constant="8" id="NzU-f0-RYg"/>
+                    <constraint firstItem="OsR-Vg-RTJ" firstAttribute="top" secondItem="Gvy-B7-kvD" secondAttribute="bottom" constant="-10" id="VZB-7b-cVR"/>
+                    <constraint firstItem="vjO-cK-wsR" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="8" id="hd1-tb-VIb"/>
+                    <constraint firstItem="OsR-Vg-RTJ" firstAttribute="leading" secondItem="vjO-cK-wsR" secondAttribute="trailing" constant="4" id="rBU-MY-WIT"/>
+                    <constraint firstItem="vjO-cK-wsR" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="4" id="yLC-SR-gpz"/>
+                </constraints>
+            </tableViewCellContentView>
+            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+            <connections>
+                <outlet property="descriptionLabel" destination="OsR-Vg-RTJ" id="UPJ-g5-QQ0"/>
+                <outlet property="photoView" destination="vjO-cK-wsR" id="0zw-tD-JRl"/>
+                <outlet property="titleLabel" destination="Gvy-B7-kvD" id="PLc-Sb-sAd"/>
+            </connections>
+            <point key="canvasLocation" x="403" y="365.5"/>
+        </tableViewCell>
+    </objects>
+</document>
