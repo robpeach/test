@@ -28,7 +28,7 @@ class ChatVC: JSQMessagesViewController {
         
         self.automaticallyScrollsToMostRecentMessage = true
         
-        
+        chatStatus()
         
         
         if let currentUser = FIRAuth.auth()?.currentUser {
@@ -38,6 +38,11 @@ class ChatVC: JSQMessagesViewController {
                 self.senderDisplayName = "Anonymous"
             }else{
                 self.senderDisplayName = (currentUser.displayName)
+                
+                let facebookPhoto = currentUser.photoURL?.absoluteString
+                
+               self.senderDisplayImage = facebookPhoto
+               
             }
         }
         observeMessages()
@@ -54,7 +59,7 @@ class ChatVC: JSQMessagesViewController {
                // print(dict)
                 let avatarUrl = dict["profileImageURL"] as! String
                 
-                print(avatarUrl)
+                
                 self.setupAvatar(avatarUrl, messageId: id)
             }
         })
@@ -84,7 +89,9 @@ class ChatVC: JSQMessagesViewController {
                 let MediaType = dict["MediaType"] as! String
                 let senderId = dict["senderId"] as! String
                 let senderName = dict["senderName"] as! String
-              //  let displayPic = snapshot.value!["displayPic"] as! String
+                let displayImage = dict["profileImageURL"] as? String
+                print(displayImage)
+               // let displayPic = snapshot.value!["displayPic"] as! String
                 self.observeUser(senderId)
                 let startTime = CFAbsoluteTimeGetCurrent()
                 
@@ -93,7 +100,7 @@ class ChatVC: JSQMessagesViewController {
                 case "TEXT":
                     
                     let text = dict["text"] as! String
-                    self.messages.append(JSQMessage(senderId: senderId, displayName: senderName, text: text))
+                    self.messages.append(JSQMessage(senderId: senderId, displayName: senderName, displayImage: displayImage, text: text))
                     print(CFAbsoluteTimeGetCurrent() - startTime)
                     
                     
@@ -128,7 +135,7 @@ class ChatVC: JSQMessagesViewController {
                         
                     }
                     //print("wcześniej test wątku")
-                    self.messages.append(JSQMessage(senderId: senderId, displayName: senderName, media: photo))
+                    self.messages.append(JSQMessage(senderId: senderId, displayName: senderName, displayImage: displayImage, media: photo))
                     
                     if self.senderId == senderId{
                         photo.appliesMediaViewMaskAsOutgoing = true
@@ -145,7 +152,7 @@ class ChatVC: JSQMessagesViewController {
                     let fileUrl = dict["fileUrl"] as! String
                     let video = NSURL(string: fileUrl)
                     let videoItem = JSQVideoMediaItem(fileURL: video, isReadyToPlay: true)
-                    self.messages.append(JSQMessage(senderId: senderId, displayName: senderName, media: videoItem))
+                    self.messages.append(JSQMessage(senderId: senderId, displayName: senderName, displayImage: displayImage, media: videoItem))
                     
                     if self.senderId == senderId{
                         videoItem.appliesMediaViewMaskAsOutgoing = true
@@ -173,12 +180,12 @@ class ChatVC: JSQMessagesViewController {
     
     
     
-     override func didPressSendButton(button: UIButton!, withMessageText text: String!, senderId: String!, senderDisplayName senderDisplayPic: String!, date: NSDate!) {
+    override func didPressSendButton(button: UIButton!, withMessageText text: String!, senderId: String!, senderDisplayName: String!, senderDisplayImage: String!, date: NSDate!) {
         print("didpress")
         automaticallyScrollsToMostRecentMessage = true
         
         let newMessage = messagesRef.childByAutoId()
-        let messageData = ["text": text, "senderId": senderId, "senderName": senderDisplayName, "MediaType": "TEXT"]
+        let messageData = ["text": text, "senderId": senderId, "senderName": senderDisplayName, "profileImageURL": senderDisplayImage, "MediaType": "TEXT"]
         newMessage.setValue(messageData)
         self.finishSendingMessage()
     }
@@ -314,7 +321,7 @@ class ChatVC: JSQMessagesViewController {
                 }
                 let fileUrl = metadata!.downloadURLs![0].absoluteString
                 let newMessage = self.messagesRef.childByAutoId()
-                let messageData = ["fileUrl": fileUrl, "senderId": self.senderId, "senderName": self.senderDisplayName, "MediaType": "PHOTO"] // można wysłać w końcu zdjęcie, zapsane w storage, fileUrl z z storage
+                let messageData = ["fileUrl": fileUrl, "senderId": self.senderId, "senderName": self.senderDisplayName, "profileImageURL": self.senderDisplayImage, "MediaType": "PHOTO"] // można wysłać w końcu zdjęcie, zapsane w storage, fileUrl z z storage
                 newMessage.setValue(messageData)
             }
         }else if let video = video {
@@ -330,16 +337,28 @@ class ChatVC: JSQMessagesViewController {
                 }
                 let fileUrl = metadata!.downloadURLs![0].absoluteString
                 let newMessage = self.messagesRef.childByAutoId()
-                let messageData = ["fileUrl": fileUrl, "senderId": self.senderId, "senderName": self.senderDisplayName, "MediaType": "VIDEO"]
+                let messageData = ["fileUrl": fileUrl, "senderId": self.senderId, "senderName": self.senderDisplayName, "profileImageURL": self.senderDisplayImage, "MediaType": "VIDEO"]
                 newMessage.setValue(messageData)
             }
             
         }
     }
     
+    func chatStatus(){
+    FIREBASE_REF.child("button").child("chat").observeEventType(.Value, withBlock: { snapshot in
     
+    let chatbuttonV = snapshot.value!.objectForKey("on") as! String
+    let chatbuttonB = "true"
+    if chatbuttonV == chatbuttonB {
     
-  
+    } else {
+    
+    self.dismissViewControllerAnimated(true, completion: {});
+    print("NO!")
+    }
+    })
+
+    }
     
     
     
