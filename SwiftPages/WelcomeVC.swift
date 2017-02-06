@@ -8,6 +8,7 @@
 
 import UIKit
 import SafariServices
+import FBSDKLoginKit
 
 class WelcomeVC: UIViewController, SFSafariViewControllerDelegate {
     @IBOutlet weak var joinclubBtn: UIButton!
@@ -53,6 +54,11 @@ class WelcomeVC: UIViewController, SFSafariViewControllerDelegate {
     func safariViewControllerDidFinish(controller: SFSafariViewController)
     {
         controller.dismissViewControllerAnimated(true, completion: nil)
+    }
+    @IBAction func continueBtn(sender: AnyObject) {
+        try! FIRAuth.auth()!.signOut()
+        FBSDKLoginManager().logOut()
+        
     }
 
 }

@@ -10,6 +10,7 @@ import UIKit
 import SDWebImage
 import PermissionScope
 import SafariServices
+import ChimpKit
 
 class MainVC: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, SFSafariViewControllerDelegate {
     
@@ -38,7 +39,7 @@ class MainVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
         startConnection()
       
         
-        
+        mailchimpdata()
         
         
         
@@ -173,6 +174,13 @@ class MainVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
         
         
     }
+    
+    
+    func mailchimpdata(){
+        
+        
+    }
+    
     
     // MARK:- COLLECTION VIEW METHODS
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

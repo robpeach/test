@@ -26,6 +26,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AVAudioPlayerDelegate {
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         self.storyboard = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle());
+        
+        
         FIRApp.configure()
         
         
@@ -33,7 +35,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AVAudioPlayerDelegate {
         
         
         //login
-        let launchedBefore = NSUserDefaults.standardUserDefaults().boolForKey("launchedBefore")
+        let launchedBefore = NSUserDefaults.standardUserDefaults().boolForKey("launchedB4-2.1.0.22")
         if launchedBefore  {
             // not initial launch
             self.window?.rootViewController = self.storyboard?.instantiateViewControllerWithIdentifier("tabBarController");
@@ -44,9 +46,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AVAudioPlayerDelegate {
             print("Not first launch.")
         }
         else {
+            
             self.window?.rootViewController = self.storyboard?.instantiateViewControllerWithIdentifier("firstLaunchedController");
             print("First launch, setting NSUserDefault.")
-            NSUserDefaults.standardUserDefaults().setBool(true, forKey: "launchedBefore")
+            NSUserDefaults.standardUserDefaults().setBool(true, forKey: "launchedB4-2.1.0.22")
+            
         }
         
         
@@ -166,33 +170,33 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AVAudioPlayerDelegate {
     func applicationDidBecomeActive(application: UIApplication) {
         FBSDKAppEvents.activateApp()
     }
-    func application(application: UIApplication, openURL url: NSURL,
-                     sourceApplication: String?, annotation: AnyObject) -> Bool {
-        
-        
-        return FBSDKApplicationDelegate.sharedInstance()
-            .application(application, openURL: url,
-                         sourceApplication: sourceApplication, annotation: annotation)
+    func application(app: UIApplication, openURL url: NSURL, options: [String : AnyObject]) -> Bool
+    {
+        return FBSDKApplicationDelegate.sharedInstance().application(
+            app,
+            openURL: url,
+            sourceApplication: options["UIApplicationOpenURLOptionsSourceApplicationKey"] as! String,
+            annotation: nil)
     }
     
     
-    func changeRootViewControllerWithIdentifier(identifier:String!) {
-        let storyboard = self.window?.rootViewController?.storyboard
-        let desiredViewController = storyboard?.instantiateViewControllerWithIdentifier(identifier);
-        
-        let snapshot:UIView = (self.window?.snapshotViewAfterScreenUpdates(true))!
-        desiredViewController?.view.addSubview(snapshot);
-        
-        self.window?.rootViewController = desiredViewController;
-        
-        UIView.animateWithDuration(0.5, animations: {() in
-            snapshot.layer.opacity = 0;
-            snapshot.layer.transform = CATransform3DMakeScale(1.5, 1.5, 1.5);
-            }, completion: {
-                (value: Bool) in
-                snapshot.removeFromSuperview();
-        });
-    }
+//    func changeRootViewControllerWithIdentifier(identifier:String!) {
+//        let storyboard = self.window?.rootViewController?.storyboard
+//        let desiredViewController = storyboard?.instantiateViewControllerWithIdentifier(identifier);
+//        
+//        let snapshot:UIView = (self.window?.snapshotViewAfterScreenUpdates(true))!
+//        desiredViewController?.view.addSubview(snapshot);
+//        
+//        self.window?.rootViewController = desiredViewController;
+//        
+//        UIView.animateWithDuration(0.5, animations: {() in
+//            snapshot.layer.opacity = 0;
+//            snapshot.layer.transform = CATransform3DMakeScale(1.5, 1.5, 1.5);
+//            }, completion: {
+//                (value: Bool) in
+//                snapshot.removeFromSuperview();
+//        });
+//    }
     
     
     class func sharedAppDelegate() -> AppDelegate? {

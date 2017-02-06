@@ -13,6 +13,8 @@ import FirebaseAuth
 import FirebaseDatabase
 import FBSDKLoginKit
 import FirebaseCore
+import ChimpKit
+
 
 class LoginVC: UIViewController, FBSDKLoginButtonDelegate {
     @IBOutlet weak var loginButton: FBSDKLoginButton!
@@ -45,11 +47,13 @@ class LoginVC: UIViewController, FBSDKLoginButtonDelegate {
 //Facebook Login
     
     func loginButton(loginButton: FBSDKLoginButton!, didCompleteWithResult result: FBSDKLoginManagerLoginResult!, error: NSError!) {
-        if error != nil {
-            
-            print(error!.localizedDescription)
-            return
+        if ((error) != nil) {
+            // Process error
         }
+        else if result.isCancelled {
+            // Handle cancellations
+        }
+        
         
         
             let credential = FIRFacebookAuthProvider.credentialWithAccessToken(FBSDKAccessToken.currentAccessToken().tokenString)
@@ -101,8 +105,19 @@ class LoginVC: UIViewController, FBSDKLoginButtonDelegate {
                     loginButton.alpha = 0
                     Pushbots.sharedInstance().setAlias("\(email)");
                     
-                    self.performSegueWithIdentifier("AutoLogin", sender: nil)
                     
+                    ChimpKit.sharedKit().apiKey = "41bdfa05f0918a8c0ba7ed19759dd185-us13"
+                    let params:[NSObject : AnyObject] = ["id": "a9edf82e68", "email": ["email": "\(email)"], "merge_vars": ["FNAME": "\(displayName)"], "double_optin": false]
+                    ChimpKit.sharedKit().callApiMethod("lists/subscribe", withParams: params, andCompletionHandler: {(response, data, error) -> Void in
+                        if let httpResponse = response as? NSHTTPURLResponse {
+                            NSLog("Reponse status code: %d", httpResponse.statusCode)
+                        }
+                    })
+                    
+                    
+                    
+                    self.performSegueWithIdentifier("AutoLogin", sender: nil)
+                
                 })
         
             

@@ -125,7 +125,7 @@ class ChatVC: JSQMessagesViewController {
                                 self.collectionView.reloadData()
                                 self.photoCache.setObject(photo, forKey: fileUrl)
                                 if self.senderId != senderId{
-                                    photo.image = UIImage(named: ("profileimg"))
+                                    photo.image = UIImage(named: ("featured"))
                                     
                                 }
                             })
@@ -142,7 +142,7 @@ class ChatVC: JSQMessagesViewController {
                         
                     }else{
                         photo.appliesMediaViewMaskAsOutgoing = false
-                        photo.image = UIImage(named: ("profileimg"))
+                        photo.image = UIImage(named: ("featured"))
                         
                     }
                     print(CFAbsoluteTimeGetCurrent() - startTime)
@@ -183,7 +183,6 @@ class ChatVC: JSQMessagesViewController {
     override func didPressSendButton(button: UIButton!, withMessageText text: String!, senderId: String!, senderDisplayName: String!, senderDisplayImage: String!, date: NSDate!) {
         print("didpress")
         automaticallyScrollsToMostRecentMessage = true
-        
         let newMessage = messagesRef.childByAutoId()
         let messageData = ["text": text, "senderId": senderId, "senderName": senderDisplayName, "profileImageURL": senderDisplayImage, "MediaType": "TEXT"]
         newMessage.setValue(messageData)
